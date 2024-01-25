@@ -27,13 +27,13 @@ try:
 
         # Print statistics every 10 lines
         if line_number % 10 == 0:
-            print(f"File size: {total_file_size}")
+            print("File size: {}".format(total_file_size))
             for code, count in status_code_counts.items():
                 if count > 0:
                     print("{}: {}".format(code, count))
 
 except KeyboardInterrupt:
-    print(f"File size: {total_file_size}")
+    print("File size: {}".format(total_file_size))
     for code, count in status_code_counts.items():
         if count > 0:
             print("{}: {}".format(code, count))
