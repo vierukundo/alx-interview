@@ -1,40 +1,40 @@
 #!/usr/bin/python3
-"""Log parsing"""
-import sys
+""" a script that reads stdin line by line and computes metrics """
 
-# Initialize variables for statistics
+from sys import stdin
+
+
+status_dict = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
 total_file_size = 0
-status_code_counts = {
-        200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
+count = 0
+
+
+def print_stats():
+    """function to print all statistics"""
+    print("File size:", total_file_size)
+    for key, value in status_dict.items():
+        if value:
+            print("{}: {}".format(key, value))
+
 
 try:
-    for line_number, line in enumerate(sys.stdin, start=1):
-        line = line.strip()
-
-        # Parse the input line
+    for line in stdin:
+        count += 1
+        line = line.split()
         try:
-            parsed_line = line.split()
-            status_code = int(parsed_line[-2])
-            file_size = int(parsed_line[-1])
-        except (ValueError, IndexError):
+            file_size = int(line[-1])
+            total_file_size += file_size
+        except (IndexError, ValueError, TypeError):
             continue
-
-        # Update statistics
-        total_file_size += file_size
         try:
-            status_code_counts[status_code] += 1
-        except KeyError:
+            status_code = int(line[-2])
+            if status_code in status_dict.keys():
+                status_dict[status_code] += 1
+        except (IndexError, ValueError, TypeError):
             continue
-
-        # Print statistics every 10 lines
-        if line_number % 10 == 0:
-            print("File size: {}".format(total_file_size))
-            for code, count in status_code_counts.items():
-                if count > 0:
-                    print("{}: {}".format(code, count))
-
+        if count == 10:
+            print_stats()
+            count = 0
+    print_stats()
 except KeyboardInterrupt:
-    print("File size: {}".format(total_file_size))
-    for code, count in status_code_counts.items():
-        if count > 0:
-            print("{}: {}".format(code, count))
+    print_stats()
