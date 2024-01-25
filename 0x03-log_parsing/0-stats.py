@@ -18,8 +18,7 @@ def print_stats():
 
 
 try:
-    for line in stdin:
-        count += 1
+    for line_number, line in enumerate(stdin, start=1):
         line = line.split()
         try:
             file_size = int(line[-1])
@@ -32,9 +31,8 @@ try:
                 status_dict[status_code] += 1
         except (IndexError, ValueError, TypeError):
             continue
-        if count == 10:
+        if line_number % 10 == 0:
             print_stats()
-            count = 0
     print_stats()
 except KeyboardInterrupt:
     print_stats()
