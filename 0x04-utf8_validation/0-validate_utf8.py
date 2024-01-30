@@ -9,6 +9,9 @@ def validUTF8(data):
     following_bytes = 0
 
     for num in data:
+        # Consider only the 8 least significant bits
+        num &= 0xFF
+
         # Check if the current byte is a leading byte
         if following_bytes == 0:
             if num >> 7 == 0b0:
