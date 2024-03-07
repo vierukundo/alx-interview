@@ -5,7 +5,7 @@ Finding the perimeter of the island described in grid
 
 
 def island_perimeter(grid):
-    # Check if the parameter is a list
+    """calculates island perimeter"""
     if not isinstance(grid, list):
         return False
 
