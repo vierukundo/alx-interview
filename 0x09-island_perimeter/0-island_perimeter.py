@@ -5,8 +5,7 @@ Finding the perimeter of the island described in grid
 
 
 def island_perimeter(grid):
-    """returns the perimeter of the island described in grid"""
-    # Check if parameter is a list
+    # Check if the parameter is a list
     if not isinstance(grid, list):
         return False
 
@@ -18,23 +17,22 @@ def island_perimeter(grid):
     if not all(isinstance(element, int) for inner_list in grid for element in inner_list):
         return False
 
-    done = False
-    cells = 0
-    previous_cell = []
+    perimeter = 0
 
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             if grid[i][j] == 1:
-                if previous_cell == []:
-                    previous_cell = [i, j]
-                    cells += 1
-                elif i or j in previous_cell:
-                    previous_cell = [i, j]
-                    cells += 1
-                else:
-                    done = True
-                    break
-        if done:
-            break
-    perimeter = (cells * 2) + 2
+                # Check left neighbor
+                if j == 0 or grid[i][j - 1] == 0:
+                    perimeter += 1
+                # Check right neighbor
+                if j == len(grid[i]) - 1 or grid[i][j + 1] == 0:
+                    perimeter += 1
+                # Check top neighbor
+                if i == 0 or grid[i - 1][j] == 0:
+                    perimeter += 1
+                # Check bottom neighbor
+                if i == len(grid) - 1 or grid[i + 1][j] == 0:
+                    perimeter += 1
+
     return perimeter
