@@ -13,10 +13,6 @@ def island_perimeter(grid):
     if not all(isinstance(inner_list, list) for inner_list in grid):
         return False
 
-    # Check if each element of the inner lists is an integer
-    if not all(isinstance(element, int) for inner_list in grid for element in inner_list):
-        return False
-
     perimeter = 0
 
     for i in range(len(grid)):
